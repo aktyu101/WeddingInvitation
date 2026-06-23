@@ -254,30 +254,63 @@
         <section id="mini-game" class="mobile-section scroll-fade">
           <div class="comic-panel-container">
             <div class="comic-panel-header text-red">
-              <h3 class="font-comic-title">BOXING CHAMPIONSHIP</h3>
-              <p class="section-subtitle">복싱 결투 미니게임</p>
+              <h3 class="font-comic-title">WEDDING DEFENSE</h3>
+              <p class="section-subtitle">폭격 펀치 치우기 미니게임</p>
             </div>
             <div class="comic-panel-body text-center">
-              <p class="font-bold" style="margin-bottom: 16px;">10초 동안 화면을 최대한 빨리 연타하세요!</p>
               
+              <!-- Leaderboard / Tug-of-war -->
+              <div class="leaderboard-container border-thick" style="margin-bottom: 24px;">
+                <h5 class="traits-title font-comic bg-yellow">🏆 세기의 대결 (팀 누적 점수)</h5>
+                
+                <div class="tug-of-war-bar border-thin" style="width: 100%; height: 24px; display: flex; border-radius: 12px; overflow: hidden; margin-bottom: 8px;">
+                  <div id="tug-groom-bar" class="tug-bar bg-blue" style="width: 50%; transition: width 0.5s ease;"></div>
+                  <div id="tug-bride-bar" class="tug-bar bg-red" style="width: 50%; transition: width 0.5s ease;"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 24px;">
+                  <span id="tug-groom-score" class="text-blue">신랑팀 0</span>
+                  <span id="tug-bride-score" class="text-red">신부팀 0</span>
+                </div>
+
+                <h5 class="traits-title font-comic bg-yellow">👑 개인 랭킹 (명예의 전당)</h5>
+                <ul id="leaderboard-list" class="leaderboard-list">
+                  <!-- JS Data binding -->
+                </ul>
+              </div>
+
+              <!-- Game Area -->
               <div id="game-container" class="game-box border-thick">
                 <!-- Game Status -->
                 <div class="game-hud">
-                  <div class="timer-box bg-yellow border-thin">TIME: <span id="game-time">10.0</span></div>
-                  <div class="score-box bg-blue text-white border-thin">SCORE: <span id="game-score">0</span></div>
+                  <div class="timer-box bg-yellow border-thin">TIME: <span id="game-time">15.0</span></div>
+                  <div class="score-box bg-dark text-white border-thin">SCORE: <span id="game-score">0</span></div>
+                  <button id="btn-close-game" class="btn-comic-submit bg-red" style="display: none; padding: 4px 10px; margin: 0; width: auto; font-size: 14px;">중단 ✖</button>
                 </div>
                 
                 <!-- Game Area -->
-                <div id="punch-area" class="punch-area">
-                  <div id="punch-target" class="punch-target">🥊</div>
-                  <div id="hit-effect" class="hit-effect">💥</div>
+                <div id="punch-area" class="punch-area" style="position: relative;">
+                  <!-- Targets will be spawned here via JS -->
                 </div>
                 
-                <!-- Game Over Overlay -->
-                <div id="game-overlay" class="game-overlay bg-dark text-white">
+                <!-- Team Selection Overlay -->
+                <div id="team-select-overlay" class="game-overlay bg-dark text-white">
                   <div class="overlay-content">
-                    <h4 class="font-comic-title text-yellow" style="font-size: 24px;">READY?</h4>
-                    <button id="btn-start-game" class="btn-comic-submit bg-red" style="width: auto; padding: 10px 30px; font-size: 20px;">START</button>
+                    <h4 class="font-comic-title text-yellow" style="font-size: 24px;">우리가 지켜줄게!</h4>
+                    <p style="margin-bottom: 16px;">어느 팀을 방어하시겠습니까?</p>
+                    <div style="display: flex; gap: 10px; justify-content: center;">
+                      <button id="btn-team-groom" class="btn-comic-submit bg-blue" style="width: 130px; font-size: 16px;">신랑팀 방어</button>
+                      <button id="btn-team-bride" class="btn-comic-submit bg-red" style="width: 130px; font-size: 16px;">신부팀 방어</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Ready Overlay -->
+                <div id="game-overlay" class="game-overlay bg-dark text-white" style="display: none;">
+                  <div class="overlay-content">
+                    <h4 id="game-message" class="font-comic-title text-yellow" style="font-size: 24px;">READY?</h4>
+                    <p id="game-rule-desc" style="margin-bottom: 16px; font-size: 14px;">날아오는 방해물을 터치해서 부수세요!<br>(반지💍, 하트💖를 부수면 -30점)</p>
+                    <button id="btn-start-game" class="btn-comic-submit bg-yellow text-dark" style="width: auto; padding: 10px 30px; font-size: 20px;">START</button>
+                    <button id="btn-cancel-game" class="btn-comic-submit bg-grey text-dark" style="width: auto; padding: 10px 30px; font-size: 16px; margin-top: 10px;">취소</button>
                   </div>
                 </div>
                 
@@ -290,14 +323,6 @@
                     <button id="btn-save-score" class="btn-comic-submit bg-blue" style="margin-top: 10px;">기록 저장</button>
                   </div>
                 </div>
-              </div>
-
-              <!-- Leaderboard -->
-              <div class="leaderboard-container border-thick" style="margin-top: 24px;">
-                <h5 class="traits-title font-comic bg-yellow">🏆 명예의 전당</h5>
-                <ul id="leaderboard-list" class="leaderboard-list">
-                  <!-- JS Data binding -->
-                </ul>
               </div>
 
             </div>

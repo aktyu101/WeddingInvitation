@@ -1545,6 +1545,11 @@ h1, h2, h3, h4, h5, h6 {
   background-color: var(--color-grey);
   overflow: hidden;
   margin-bottom: 16px;
+  transition: all 0.3s ease;
+}
+
+body.no-scroll {
+  overflow: hidden;
 }
 
 .game-hud {
@@ -1567,30 +1572,45 @@ h1, h2, h3, h4, h5, h6 {
 .punch-area {
   position: absolute;
   top: 0; left: 0; width: 100%; height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  overflow: hidden;
   cursor: crosshair;
   background-image: radial-gradient(rgba(26, 26, 26, 0.05) 20%, transparent 21%);
   background-size: 10px 10px;
 }
 
-.punch-target {
-  font-size: 80px;
-  transition: transform 0.05s ease;
+.game-target {
+  position: absolute;
+  font-size: 40px;
   user-select: none;
+  animation: popUp 1.5s ease-out forwards;
+  pointer-events: auto;
+  transform-origin: center bottom;
 }
 
-.punch-target.hit {
-  transform: scale(0.85);
+.game-target.hit {
+  animation: smash 0.2s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes popUp {
+  0% { transform: scale(0) translateY(50px); opacity: 0; }
+  10% { transform: scale(1.2) translateY(-10px); opacity: 1; }
+  20% { transform: scale(1) translateY(0); opacity: 1; }
+  80% { transform: scale(1) translateY(0); opacity: 1; }
+  100% { transform: scale(0) translateY(50px); opacity: 0; }
+}
+
+@keyframes smash {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.5) rotate(45deg); opacity: 0; filter: grayscale(100%); }
 }
 
 .hit-effect {
   position: absolute;
-  font-size: 60px;
+  font-size: 40px;
   opacity: 0;
   pointer-events: none;
-  transform: scale(0);
+  transform: scale(0) translate(-50%, -50%);
   z-index: 5;
 }
 

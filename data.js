@@ -89,12 +89,14 @@ const WEDDING_DATA = {
     shuttle: "강남역 3번 출구 앞에서 20분 간격 셔틀버스 운행 (예식 시작 1시간 전부터 종료 후 1시간까지)"
   },
 
-  // 복싱 미니게임 목데이터 (명예의 전당)
+  // 복싱 디펜스 미니게임 목데이터 (팀 점수 & 명예의 전당)
   minigame: {
+    teamGroomScore: 12500, // 신랑팀 누적 총점
+    teamBrideScore: 13200, // 신부팀 누적 총점
     leaderboard: [
-      { rank: 1, name: "김태양", score: 156 },
-      { rank: 2, name: "이민지", score: 142 },
-      { rank: 3, name: "박준호", score: 138 }
+      { rank: 1, team: "bride", name: "김태양", score: 350 },
+      { rank: 2, team: "groom", name: "이민지", score: 320 },
+      { rank: 3, team: "bride", name: "박준호", score: 280 }
     ]
   }
 };
