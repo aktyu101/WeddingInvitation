@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>임영재 & 송혜원 결혼합니다!</title>
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="신랑 임영재 & 신부 송혜원의 모바일 청첩장입니다. 2026년 10월 25일 낮 12시, 저희의 새로운 출발을 축하해 주세요!">
+  <meta property="og:title" content="임영재 & 송혜원 결혼합니다!">
+  <meta property="og:description" content="2026년 10월 25일 낮 12시, 라벤더 웨딩홀. 저희의 위대한 동맹의 순간에 여러분을 초대합니다!">
+  <meta property="og:image" content="assets/cover_design.jpg">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Impact-like English comic fonts and neat Korean fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bungee&family=Noto+Sans+KR:wght@300;400;700;900&family=Permanent+Marker&family=Do+Hyeon&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  
+  <!-- Password Lock Screen -->
+  <div id="password-screen" class="password-screen" style="display: none;">
+    <div class="password-box comic-panel-container">
+      <div class="comic-panel-header text-red">
+        <h3 class="font-comic-title">TOP SECRET MISSION</h3>
+      </div>
+      <div class="comic-panel-body text-center">
+        <p class="font-bold" style="margin-bottom: 16px;">초대받은 요원만 접근할 수 있습니다.<br>암호를 입력해주세요.</p>
+        <input type="password" id="secret-password" class="comic-input" placeholder="암호 입력">
+        <button id="btn-unlock" class="btn-comic-submit bg-blue">접근 승인 요청</button>
+        <p id="password-error" class="text-red font-bold" style="display: none; margin-top: 10px;">암호가 일치하지 않습니다!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Background Petal/Spark Canvas Overlay -->
+  <div id="particle-container"></div>
+
+  <!-- Audio Player (Muted by default to satisfy browser autoplay policies) -->
+  <audio id="bgm" loop preload="auto">
+    <!-- Royalty-free energetic/romantic upbeat track -->
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- BGM Floating Button -->
+  <button id="bgm-toggle" class="comic-btn-circle" aria-label="음악 재생 및 음소거 설정">
+    <span class="music-icon">🎵</span>
+    <span class="sound-wave">
+      <span></span><span></span><span></span>
+    </span>
+  </button>
+
+  <!-- Main Container: Desktop Split-Screen, Mobile Single Column Scroll -->
+  <main id="app-container" style="display: none;">
+
+    <!-- LEFT SIDE: Desktop Cover (Visible on screens > 1024px) -->
+    <section id="desktop-cover">
+      <div class="magazine-border">
+        <div class="desktop-cover-content">
+          <div class="comic-badge text-yellow">SPECIAL ISSUE</div>
+          <h1 class="magazine-title" id="pc-magazine-title">WEDDING BELLS</h1>
+          <p class="magazine-volume" id="pc-magazine-volume">VOL. 2026 ISSUE 1025</p>
+
+          <div class="comic-page-layout">
+            <div class="comic-panel panel-main">
+              <img src="assets/cover_design.jpg" alt="메인 컷" class="panel-img">
+              <div class="action-bubble speech-bubble-left text-red scale-anim" style="top: 10px; left: -10px;">BOOM!</div>
+            </div>
+            <div class="comic-panel-row">
+              <div class="comic-panel panel-sub">
+                <img src="assets/gallery1.png" alt="서브 컷 1" class="panel-img">
+              </div>
+              <div class="comic-panel panel-sub">
+                <img src="assets/gallery2.png" alt="서브 컷 2" class="panel-img">
+                <div class="action-bubble speech-bubble-right text-blue scale-anim" style="bottom: -5px; right: -15px; font-size: 12px; padding: 4px 8px;">LOVE!</div>
+              </div>
+            </div>
+            <div class="comic-caption-box" style="margin-top: 4px; border: var(--border-thin);">
+              <span class="cover-caption" id="pc-cover-caption">THE WEDDING HEROES - 2026.10.25</span>
+            </div>
+          </div>
+
+          <h2 class="cover-headline" id="pc-cover-headline">임영재 & 송혜원의 위대한 동맹!</h2>
+          <div class="pc-wedding-info">
+            <p class="wedding-date-str" id="pc-date-str">2026년 10월 25일 일요일</p>
+            <p class="wedding-time-str" id="pc-time-str">낮 12시</p>
+            <p class="wedding-location-str" id="pc-location-str">라벤더 웨딩홀 그랜드 볼룸홀</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT SIDE: Mobile Viewport Simulator -->
+    <section id="mobile-invitation-view">
+      <div class="scroll-container">
+
+        <!-- SECTION 1: Mobile Cover -->
+        <header id="cover" class="mobile-section text-center">
+          <div class="magazine-header-mini">
+            <span class="comic-tag">SPECIAL WEDDING EDITION</span>
+            <h1 class="magazine-title" id="mb-magazine-title">WEDDING BELLS</h1>
+            <div class="magazine-meta">
+              <span class="magazine-volume" id="mb-magazine-volume">VOL. 2026 ISSUE 1025</span>
+              <span class="price-tag">12:00 PM</span>
+            </div>
+          </div>
+
+          <div class="comic-photo-frame border-thick">
+            <img src="assets/cover_design.jpg" alt="신랑 신부 일러스트" class="cover-image">
+            <div class="comic-caption-box">
+              <span class="cover-caption" id="mb-cover-caption">THE WEDDING HEROES</span>
+            </div>
+            <!-- Comic style stickers -->
+            <div class="action-sticker sticker-pow">POW!</div>
+            <div class="action-sticker sticker-married">MARRIED!</div>
+          </div>
+
+          <div class="cover-title-box">
+            <div class="wedding-headline-container">
+              <h2 class="cover-headline font-comic-title" id="mb-cover-headline">임영재 & 송혜원의 위대한 동맹!</h2>
+            </div>
+            <div class="comic-bulletin-box">
+              <p class="wedding-date-str font-bold" id="mb-date-str">2026년 10월 25일 일요일</p>
+              <p class="wedding-time-str" id="mb-time-str">낮 12시</p>
+              <p class="wedding-location-str" id="mb-location-str">라벤더 웨딩홀</p>
+            </div>
+          </div>
+        </header>
+
+        <!-- SECTION 2: Invitation Greetings -->
+        <section id="greetings" class="mobile-section scroll-fade">
+          <div class="comic-panel-container">
+            <div class="comic-panel-header text-yellow">
+              <h3 class="font-comic-title">THE ALLIANCE STORY</h3>
+            </div>
+            <div class="comic-panel-body">
+              <div class="greeting-highlight-bubble">
+                <p class="greeting-headline" id="greeting-headline">LOVE IS AN ADVENTURE!</p>
+              </div>
+
+              <div class="greeting-text-box">
+                <p class="greeting-message" id="greeting-message">
+                  <!-- Injected from data.js -->
+                </p>
+              </div>
+
+              <!-- Parents Info Layout -->
+              <div class="parents-info-grid">
+                <div class="parent-line card-panel">
+                  <div class="comic-badge badge-groom">GROOM SIDE</div>
+                  <p class="family-relation" id="groom-family-relation">
+                    <!-- 신랑 관계 -->
+                  </p>
+                  <div class="contact-buttons">
+                    <a href="" id="groom-call" class="btn-comic-small bg-blue">신랑 전화</a>
+                    <a href="" id="groom-father-call" class="btn-comic-small bg-dark">혼주 전화</a>
+                  </div>
+                </div>
+
+                <div class="parent-line card-panel">
+                  <div class="comic-badge badge-bride">BRIDE SIDE</div>
+                  <p class="family-relation" id="bride-family-relation">
+                    <!-- 신부 관계 -->
+                  </p>
+                  <div class="contact-buttons">
+                    <a href="" id="bride-call" class="btn-comic-small bg-red">신부 전화</a>
+                    <a href="" id="bride-father-call" class="btn-comic-small bg-dark">혼주 전화</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 2.5: Player Profile -->
+        <section id="player-profile" class="mobile-section scroll-fade">
+          <div class="comic-panel-container">
+            <div class="comic-panel-header text-blue">
+              <h3 class="font-comic-title">PLAYER PROFILE</h3>
+              <p class="section-subtitle">선수 소개</p>
+            </div>
+            <div class="comic-panel-body">
+              <div class="profile-cards-grid">
+                
+                <!-- Groom Card -->
+                <div class="card-panel profile-card">
+                  <div class="comic-badge badge-groom">신랑 영재</div>
+                  
+                  <div class="profile-stats">
+                    <div class="stat-row">
+                      <span class="stat-label">공격</span>
+                      <div class="stat-bar"><div class="stat-fill bg-red" style="width: 95%;"></div></div>
+                      <span class="stat-value">95</span>
+                    </div>
+                    <div class="stat-row">
+                      <span class="stat-label">방어</span>
+                      <div class="stat-bar"><div class="stat-fill bg-blue" style="width: 80%;"></div></div>
+                      <span class="stat-value">80</span>
+                    </div>
+                    <div class="stat-row">
+                      <span class="stat-label">사고능력</span>
+                      <div class="stat-bar"><div class="stat-fill bg-yellow" style="width: 50%;"></div></div>
+                      <span class="stat-value">50</span>
+                    </div>
+                    <div class="stat-row">
+                      <span class="stat-label">눈치력</span>
+                      <div class="stat-bar"><div class="stat-fill bg-dark" style="width: 20%;"></div></div>
+                      <span class="stat-value">20</span>
+                    </div>
+                  </div>
+
+                  <div class="profile-traits border-thick">
+                    <h5 class="traits-title font-comic bg-yellow">특성</h5>
+                    <ul class="traits-list">
+                      <li>✔ 일단 시작함</li>
+                      <li>✔ 마감 직전 집중력 상승</li>
+                      <li>✔ 미래의 나에게 맡김</li>
+                    </ul>
+                  </div>
+                  <div class="cheer-btn-wrapper">
+                    <button class="btn-cheer bg-blue" data-target="groom">
+                      <span class="heart-icon">❤️</span> 응원하기 <span class="cheer-count" id="cheer-count-groom">0</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Bride Card -->
+                <div class="card-panel profile-card">
+                  <div class="comic-badge badge-bride">신부 혜원</div>
+                  
+                  <div class="profile-stats">
+                    <div class="stat-row">
+                      <span class="stat-label">공격</span>
+                      <div class="stat-bar"><div class="stat-fill bg-red" style="width: 30%;"></div></div>
+                      <span class="stat-value">30</span>
+                    </div>
+                    <div class="stat-row">
+                      <span class="stat-label">방어</span>
+                      <div class="stat-bar"><div class="stat-fill bg-blue" style="width: 30%;"></div></div>
+                      <span class="stat-value">30</span>
+                    </div>
+                    <div class="stat-row">
+                      <span class="stat-label">잔소리</span>
+                      <div class="stat-bar"><div class="stat-fill bg-yellow" style="width: 100%;"></div></div>
+                      <span class="stat-value">100</span>
+                    </div>
+                    <div class="stat-row">
+                      <span class="stat-label">계획력</span>
+                      <div class="stat-bar"><div class="stat-fill bg-dark" style="width: 100%;"></div></div>
+                      <span class="stat-value">100</span>
+                    </div>
+                  </div>
+
+                  <div class="profile-traits border-thick">
+                    <h5 class="traits-title font-comic bg-yellow">특성</h5>
+                    <ul class="traits-list">
+                      <li>✔ 일정표 생성</li>
+                      <li>✔ 돌발상황 대응</li>
+                      <li>✔ 미리 말했지 발동</li>
+                    </ul>
+                  </div>
+                  <div class="cheer-btn-wrapper">
+                    <button class="btn-cheer bg-red" data-target="bride">
+                      <span class="heart-icon">❤️</span> 응원하기 <span class="cheer-count" id="cheer-count-bride">0</span>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 3: Mission Countdown & Calendar -->
+        <section id="countdown-section" class="mobile-section scroll-fade">
+          <div class="comic-panel-container">
+            <div class="comic-panel-header text-red">
+              <h3 class="font-comic-title">MISSION COUNTDOWN</h3>
+            </div>
+
+            <div class="comic-panel-body">
+              <!-- D-day Timer UI -->
+              <div class="countdown-display" id="dday-timer">
+                <div class="time-box">
+                  <span class="time-val" id="days">00</span>
+                  <span class="time-unit">DAYS</span>
+                </div>
+                <div class="time-divider">:</div>
+                <div class="time-box">
+                  <span class="time-val" id="hours">00</span>
+                  <span class="time-unit">HOURS</span>
+                </div>
+                <div class="time-divider">:</div>
+                <div class="time-box">
+                  <span class="time-val" id="minutes">00</span>
+                  <span class="time-unit">MINS</span>
+                </div>
+                <div class="time-divider">:</div>
+                <div class="time-box">
+                  <span class="time-val" id="seconds">00</span>
+                  <span class="time-unit">SECS</span>
+                </div>
+              </div>
+              <div class="countdown-caption" id="dday-status">임무 개시 대기 중...</div>
+
+              <hr class="comic-divider">
+
+              <!-- Calendar UI -->
+              <div class="calendar-container">
+                <div class="calendar-header">
+                  <span class="calendar-month-name">2026. 10</span>
+                </div>
+                <table class="calendar-table">
+                  <thead>
+                    <tr>
+                      <th class="text-red">일</th>
+                      <th>월</th>
+                      <th>화</th>
+                      <th>수</th>
+                      <th>목</th>
+                      <th>금</th>
+                      <th class="text-blue">토</th>
+                    </tr>
+                  </thead>
+                  <tbody id="calendar-body">
+                    <!-- Oct 2026 custom grid starting on Thursday -->
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>1</td>
+                      <td>2</td>
+                      <td class="text-blue">3</td>
+                    </tr>
+                    <tr>
+                      <td class="text-red">4</td>
+                      <td>5</td>
+                      <td>6</td>
+                      <td>7</td>
+                      <td>8</td>
+                      <td>9</td>
+                      <td class="text-blue">10</td>
+                    </tr>
+                    <tr>
+                      <td class="text-red">11</td>
+                      <td>12</td>
+                      <td>13</td>
+                      <td>14</td>
+                      <td>15</td>
+                      <td>16</td>
+                      <td class="text-blue">17</td>
+                    </tr>
+                    <tr>
+                      <td class="text-red">18</td>
+                      <td>19</td>
+                      <td>20</td>
+                      <td>21</td>
+                      <td>22</td>
+                      <td>23</td>
+                      <td class="text-blue">24</td>
+                    </tr>
+                    <tr>
+                      <td class="text-red wedding-day-cell">
+                        <div class="wedding-day-wrapper">
+                          <span class="wedding-day-num">25</span>
+                          <span class="wedding-badge-bubble">BAM!</span>
+                        </div>
+                      </td>
+                      <td>26</td>
+                      <td>27</td>
+                      <td>28</td>
+                      <td>29</td>
+                      <td>30</td>
+                      <td class="text-blue">31</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 4: Gallery -->
+        <section id="gallery" class="mobile-section scroll-fade">
+          <div class="comic-panel-container">
+            <div class="comic-panel-header text-blue">
+              <h3 class="font-comic-title">PHOTO ALBUM</h3>
+            </div>
+            <div class="comic-panel-body">
+              <div class="gallery-grid">
+                <!-- Action styled images -->
+                <div class="gallery-item-wrapper tilted-left">
+                  <img src="assets/gallery1.png" alt="웨딩 갤러리 이미지 1" class="gallery-img" data-index="0">
+                  <div class="gallery-caption">YES!</div>
+                </div>
+                <div class="gallery-item-wrapper tilted-right">
+                  <img src="assets/gallery2.png" alt="웨딩 갤러리 이미지 2" class="gallery-img" data-index="1">
+                  <div class="gallery-caption">SWEET!</div>
+                </div>
+                <div class="gallery-item-wrapper tilted-right">
+                  <img src="assets/gallery3.png" alt="웨딩 갤러리 이미지 3" class="gallery-img" data-index="2">
+                  <div class="gallery-caption">FOREVER!</div>
+                </div>
+                <div class="gallery-item-wrapper tilted-left">
+                  <img src="assets/gallery4.png" alt="웨딩 갤러리 이미지 4" class="gallery-img" data-index="3">
+                  <div class="gallery-caption">LOVE!</div>
+                </div>
+              </div>
+              <div class="gallery-more-btn-wrapper text-center" style="margin-top: 24px;">
+                <button class="btn-comic-submit bg-blue" id="btn-gallery-more">전체 사진 슬라이드 📸</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 5: Location / Directions -->
+        <section id="location-section" class="mobile-section scroll-fade">
+          <div class="comic-panel-container">
+            <div class="comic-panel-header text-yellow">
+              <h3 class="font-comic-title">MISSION LOCATION</h3>
+            </div>
+
+            <div class="comic-panel-body">
+              <h4 class="location-title" id="location-name">라벤더 웨딩홀</h4>
+              <p class="location-detail" id="location-hall">그랜드 볼룸홀</p>
+              <p class="location-address" id="location-address">서울특별시 강남구 테헤란로 123</p>
+              <a href="tel:0327651176" class="btn-comic-link" id="location-phone">📞 전화하기</a>
+
+              <!-- Map Container -->
+              <div class="map-card border-thick">
+                <div class="static-map-placeholder">
+                  <!-- Custom drawn map design in pop-art style using CSS grid, icons & labels -->
+                  <div class="map-art">
+                    <div class="road road-h">테헤란로</div>
+                    <div class="road road-v">강남대로</div>
+                    <div class="poi port">국기원</div>
+                    <div class="poi station">강남역 (2호선, 신분당선)</div>
+                    <div class="poi market">강남역 지하상가</div>
+                    <div class="poi target-wedding">💥 라벤더 웨딩홀 (목적지!)</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Map Navigation Buttons -->
+              <div class="map-nav-buttons">
+                <a href="#" id="kakao-map-btn" class="btn-map bg-kakaomap" target="_blank" rel="noopener">카카오맵</a>
+                <a href="#" id="naver-map-btn" class="btn-map bg-navermap" target="_blank" rel="noopener">네이버지도</a>
+                <a href="#" id="tmap-btn" class="btn-map bg-tmap" target="_blank" rel="noopener">티맵</a>
+              </div>
+
+              <!-- Direction Details -->
+              <div class="transit-directions text-left">
+                <div class="transit-block">
+                  <h5 class="transit-title text-red">🚇 지하철 이용 시</h5>
+                  <p class="transit-desc" id="subway-desc"></p>
+                </div>
+                <div class="transit-block">
+                  <h5 class="transit-title text-blue">🚌 버스 이용 시</h5>
+                  <p class="transit-desc" id="bus-desc"></p>
+                </div>
+                <div class="transit-block">
+                  <h5 class="transit-title text-yellow">🚌 셔틀버스 운행 안내</h5>
+                  <p class="transit-desc" id="shuttle-desc"></p>
+                </div>
+                <div class="transit-block">
+                  <h5 class="transit-title text-dark">🚗 자가용 & 주차 안내</h5>
+                  <p class="transit-desc" id="parking-desc"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 6: Congratulatory Accounts (Support The Heroes) -->
+        <section id="accounts" class="mobile-section scroll-fade">
+          <div class="comic-panel-container">
+            <div class="comic-panel-header text-red">
+              <h3 class="font-comic-title">SUPPORT THE HEROES</h3>
+            </div>
+
+            <div class="comic-panel-body">
+              <p class="support-intro text-center">신랑 신부에게 따뜻한 축하의 마음을 보내주세요.</p>
+
+              <!-- Groom Accordion -->
+              <div class="accordion-container border-thick">
+                <button class="accordion-trigger bg-blue" aria-expanded="false">
+                  <span>신랑측 마음 전하실 곳</span>
+                  <span class="arrow font-comic">▼</span>
+                </button>
+                <div class="accordion-panel" id="groom-accounts-list">
+                  <!-- Injected from data.js -->
+                </div>
+              </div>
+
+              <!-- Bride Accordion -->
+              <div class="accordion-container border-thick">
+                <button class="accordion-trigger bg-red" aria-expanded="false">
+                  <span>신부측 마음 전하실 곳</span>
+                  <span class="arrow font-comic">▼</span>
+                </button>
+                <div class="accordion-panel" id="bride-accounts-list">
+                  <!-- Injected from data.js -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 7: Fan Letter Guestbook -->
+        <section id="guestbook" class="mobile-section scroll-fade">
+          <div class="comic-panel-container">
+            <div class="comic-panel-header text-blue">
+              <h3 class="font-comic-title">FAN LETTERS</h3>
+            </div>
+
+            <div class="comic-panel-body">
+              <!-- Write Guestbook -->
+              <form id="guestbook-form" class="card-panel border-thick text-left">
+                <h4 class="form-title font-comic">WRITE A LETTER</h4>
+                <div class="form-group">
+                  <label for="gb-name" class="font-bold">작성자</label>
+                  <input type="text" id="gb-name" class="comic-input" placeholder="이름을 적어주세요 (4자 이내)" required
+                    maxlength="8">
+                </div>
+                <div class="form-group">
+                  <label for="gb-message" class="font-bold">응원 메시지</label>
+                  <textarea id="gb-message" class="comic-input" rows="3" placeholder="축하의 말을 적어주세요! (50자 이내)" required
+                    maxlength="60"></textarea>
+                </div>
+                <button type="submit" class="btn-comic-submit">영웅들에게 발송! 🚀</button>
+              </form>
+
+              <!-- Guestbook List -->
+              <div class="guestbook-list-container">
+                <h4 class="form-title font-comic">MESSAGE BOARD</h4>
+                <div id="guestbook-entries" class="guestbook-entries">
+                  <!-- Dynamically loaded guestbook items as speech bubbles -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer id="mobile-footer" class="text-center font-comic-title text-dark">
+          <p>© 2026 YOUNG-JAE & HYE-WON. ALL RIGHTS RESERVED.</p>
+          <p>MADE WITH ❤️ IN POP ART</p>
+        </footer>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Photo Slideshow Lightbox Modal -->
+  <div id="lightbox-modal" class="modal" aria-hidden="true" role="dialog">
+    <button class="modal-close" aria-label="닫기">×</button>
+    <div class="modal-content">
+      <button class="modal-prev" aria-label="이전 사진">◀</button>
+      <div class="modal-image-wrapper">
+        <img id="modal-img" src="" alt="확대 사진">
+        <div id="modal-caption" class="comic-caption-box"></div>
+      </div>
+      <button class="modal-next" aria-label="다음 사진">▶</button>
+    </div>
+  </div>
+
+  <!-- Clipboard Copy Toast Notification -->
+  <div id="copy-toast" class="toast-bubble">COPY SUCCESS!</div>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
