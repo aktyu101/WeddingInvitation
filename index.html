@@ -250,6 +250,60 @@
           </div>
         </section>
 
+        <!-- SECTION 2.6: Mini Game -->
+        <section id="mini-game" class="mobile-section scroll-fade">
+          <div class="comic-panel-container">
+            <div class="comic-panel-header text-red">
+              <h3 class="font-comic-title">BOXING CHAMPIONSHIP</h3>
+              <p class="section-subtitle">복싱 결투 미니게임</p>
+            </div>
+            <div class="comic-panel-body text-center">
+              <p class="font-bold" style="margin-bottom: 16px;">10초 동안 화면을 최대한 빨리 연타하세요!</p>
+              
+              <div id="game-container" class="game-box border-thick">
+                <!-- Game Status -->
+                <div class="game-hud">
+                  <div class="timer-box bg-yellow border-thin">TIME: <span id="game-time">10.0</span></div>
+                  <div class="score-box bg-blue text-white border-thin">SCORE: <span id="game-score">0</span></div>
+                </div>
+                
+                <!-- Game Area -->
+                <div id="punch-area" class="punch-area">
+                  <div id="punch-target" class="punch-target">🥊</div>
+                  <div id="hit-effect" class="hit-effect">💥</div>
+                </div>
+                
+                <!-- Game Over Overlay -->
+                <div id="game-overlay" class="game-overlay bg-dark text-white">
+                  <div class="overlay-content">
+                    <h4 class="font-comic-title text-yellow" style="font-size: 24px;">READY?</h4>
+                    <button id="btn-start-game" class="btn-comic-submit bg-red" style="width: auto; padding: 10px 30px; font-size: 20px;">START</button>
+                  </div>
+                </div>
+                
+                <!-- New High Score Overlay -->
+                <div id="highscore-overlay" class="game-overlay bg-dark text-white" style="display: none;">
+                  <div class="overlay-content">
+                    <h4 class="font-comic-title text-yellow" style="font-size: 24px;">NEW RECORD!</h4>
+                    <p style="margin: 10px 0;">명예의 전당에 이름을 남기세요!</p>
+                    <input type="text" id="player-name" class="comic-input" placeholder="이름 (예: 홍길동)" maxlength="10">
+                    <button id="btn-save-score" class="btn-comic-submit bg-blue" style="margin-top: 10px;">기록 저장</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Leaderboard -->
+              <div class="leaderboard-container border-thick" style="margin-top: 24px;">
+                <h5 class="traits-title font-comic bg-yellow">🏆 명예의 전당</h5>
+                <ul id="leaderboard-list" class="leaderboard-list">
+                  <!-- JS Data binding -->
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
         <!-- SECTION 3: Mission Countdown & Calendar -->
         <section id="countdown-section" class="mobile-section scroll-fade">
           <div class="comic-panel-container">

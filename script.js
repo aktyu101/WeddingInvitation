@@ -28,6 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
     initScrollFade();
     // 9. 선수 응원 하트 기능
     initCheerButtons();
+    // 11. 미니게임 (Boxing Championship)
+    initMiniGame();
   };
 
   const attemptUnlock = () => {
@@ -631,4 +633,170 @@ function initCheerButtons() {
   if (btnBride) {
     btnBride.addEventListener("click", () => handleCheer("bride", countBrideEl, btnBride, storageKeyBride));
   }
+}
+
+// ==========================================
+// 11. 미니게임 (Boxing Championship)
+// ==========================================
+function initMiniGame() {
+  const btnStart = document.getElementById('btn-start-game');
+  const gameOverlay = document.getElementById('game-overlay');
+  const highscoreOverlay = document.getElementById('highscore-overlay');
+  const punchArea = document.getElementById('punch-area');
+  const punchTarget = document.getElementById('punch-target');
+  const hitEffect = document.getElementById('hit-effect');
+  const gameBox = document.getElementById('game-container');
+  
+  const elTime = document.getElementById('game-time');
+  const elScore = document.getElementById('game-score');
+  
+  const btnSave = document.getElementById('btn-save-score');
+  const inputName = document.getElementById('player-name');
+  const leaderboardList = document.getElementById('leaderboard-list');
+
+  if (!btnStart) return;
+
+  let score = 0;
+  let timeLeft = 10.0;
+  let isPlaying = false;
+  let gameInterval;
+
+  // 목데이터 리더보드 가져오기
+  let leaderboard = [];
+  if (typeof WEDDING_DATA !== 'undefined' && WEDDING_DATA.minigame) {
+    leaderboard = JSON.parse(JSON.stringify(WEDDING_DATA.minigame.leaderboard));
+  }
+
+  // 로컬에 저장된 최고 기록이 있으면 업데이트 (로컬 테스트용)
+  const localLeaderboard = localStorage.getItem('wedding_boxing_leaderboard');
+  if (localLeaderboard) {
+    leaderboard = JSON.parse(localLeaderboard);
+  }
+
+  const renderLeaderboard = () => {
+    leaderboard.sort((a, b) => b.score - a.score);
+    // 상위 3위까지만 표시
+    const top3 = leaderboard.slice(0, 3);
+    
+    leaderboardList.innerHTML = '';
+    top3.forEach((entry, idx) => {
+      const li = document.createElement('li');
+      li.className = 'leaderboard-item';
+      const rankClass = idx < 3 ? `rank-${idx + 1}` : '';
+      li.innerHTML = `
+        <div><span class="rank-badge ${rankClass}">${idx + 1}</span> ${entry.name}</div>
+        <div class="font-comic-title">${entry.score} PT</div>
+      `;
+      leaderboardList.appendChild(li);
+    });
+  };
+
+  renderLeaderboard();
+
+  const endGame = () => {
+    isPlaying = false;
+    clearInterval(gameInterval);
+    gameBox.classList.remove('shake-screen');
+    
+    // 최소 3위 안에 드는지 확인
+    const isHighScore = leaderboard.length < 3 || score > leaderboard[leaderboard.length - 1].score;
+    
+    if (isHighScore && score > 0) {
+      highscoreOverlay.style.display = 'flex';
+      inputName.focus();
+    } else {
+      gameOverlay.style.display = 'flex';
+      gameOverlay.querySelector('h4').textContent = "GAME OVER";
+      btnStart.textContent = "RETRY";
+    }
+  };
+
+  const updateTimer = () => {
+    timeLeft -= 0.1;
+    if (timeLeft <= 0) {
+      timeLeft = 0;
+      elTime.textContent = "0.0";
+      endGame();
+    } else {
+      elTime.textContent = timeLeft.toFixed(1);
+    }
+  };
+
+  const startGame = () => {
+    score = 0;
+    timeLeft = 10.0;
+    isPlaying = true;
+    elScore.textContent = score;
+    elTime.textContent = "10.0";
+    
+    gameOverlay.style.display = 'none';
+    highscoreOverlay.style.display = 'none';
+    
+    clearInterval(gameInterval);
+    gameInterval = setInterval(updateTimer, 100);
+  };
+
+  const hitAction = (e) => {
+    if (!isPlaying) return;
+    
+    score++;
+    elScore.textContent = score;
+    
+    // 효과음 및 비주얼
+    punchTarget.classList.add('hit');
+    setTimeout(() => punchTarget.classList.remove('hit'), 50);
+    
+    // 화면 흔들림
+    gameBox.classList.add('shake-screen');
+    setTimeout(() => gameBox.classList.remove('shake-screen'), 100);
+    
+    // 이펙트 위치 (터치한 곳 주변)
+    let clientX, clientY;
+    if (e.type === 'touchstart') {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    } else {
+      clientX = e.clientX;
+      clientY = e.clientY;
+    }
+    
+    const rect = punchArea.getBoundingClientRect();
+    const x = clientX - rect.left - 30; // 30 is half of effect width
+    const y = clientY - rect.top - 30;
+    
+    // 여러 개의 이펙트 요소를 만들기 위해 복제
+    const cloneEffect = hitEffect.cloneNode(true);
+    cloneEffect.style.left = `${x}px`;
+    cloneEffect.style.top = `${y}px`;
+    cloneEffect.classList.add('active');
+    punchArea.appendChild(cloneEffect);
+    
+    setTimeout(() => {
+      cloneEffect.remove();
+    }, 200);
+  };
+
+  btnStart.addEventListener('click', startGame);
+  punchArea.addEventListener('mousedown', hitAction);
+  punchArea.addEventListener('touchstart', (e) => {
+    e.preventDefault(); // 더블 탭 줌 방지
+    hitAction(e);
+  });
+
+  btnSave.addEventListener('click', () => {
+    const name = inputName.value.trim() || "익명 요원";
+    leaderboard.push({ name, score });
+    leaderboard.sort((a, b) => b.score - a.score);
+    leaderboard = leaderboard.slice(0, 3); // 상위 3위 유지
+    
+    // 로컬 스토리지에 저장 (목데이터 확장)
+    localStorage.setItem('wedding_boxing_leaderboard', JSON.stringify(leaderboard));
+    
+    renderLeaderboard();
+    
+    highscoreOverlay.style.display = 'none';
+    gameOverlay.style.display = 'flex';
+    gameOverlay.querySelector('h4').textContent = "RANKED!";
+    btnStart.textContent = "PLAY AGAIN";
+  });
 }

@@ -1536,3 +1536,137 @@ h1, h2, h3, h4, h5, h6 {
   background-color: var(--color-light);
   transform: rotate(-1deg);
 }
+
+/* 21. 미니게임 (Boxing) */
+.game-box {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  background-color: var(--color-grey);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.game-hud {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 2;
+  font-family: var(--font-title);
+  font-size: 18px;
+}
+
+.timer-box, .score-box {
+  padding: 4px 12px;
+  box-shadow: 2px 2px 0px var(--color-dark);
+}
+
+.punch-area {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: crosshair;
+  background-image: radial-gradient(rgba(26, 26, 26, 0.05) 20%, transparent 21%);
+  background-size: 10px 10px;
+}
+
+.punch-target {
+  font-size: 80px;
+  transition: transform 0.05s ease;
+  user-select: none;
+}
+
+.punch-target.hit {
+  transform: scale(0.85);
+}
+
+.hit-effect {
+  position: absolute;
+  font-size: 60px;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0);
+  z-index: 5;
+}
+
+.hit-effect.active {
+  animation: hitPop 0.2s ease-out forwards;
+}
+
+@keyframes hitPop {
+  0% { opacity: 1; transform: scale(0.5) rotate(-15deg); }
+  50% { opacity: 1; transform: scale(1.2) rotate(10deg); }
+  100% { opacity: 0; transform: scale(1.5) rotate(20deg); }
+}
+
+.game-overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  background-color: rgba(26, 26, 26, 0.85);
+}
+
+.overlay-content {
+  text-align: center;
+}
+
+/* 화면 흔들림 효과 */
+.shake-screen {
+  animation: shakeLayer 0.1s ease-in-out infinite alternate;
+}
+
+@keyframes shakeLayer {
+  0% { transform: translate(-2px, 1px) rotate(0deg); }
+  100% { transform: translate(2px, -1px) rotate(-1deg); }
+}
+
+.leaderboard-container {
+  background-color: var(--color-light);
+  position: relative;
+  padding: 20px 16px 16px 16px;
+  text-align: left;
+}
+
+.leaderboard-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.leaderboard-item {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: var(--border-thin);
+  padding: 8px 0;
+  font-weight: bold;
+}
+
+.leaderboard-item:last-child {
+  border-bottom: none;
+}
+
+.rank-badge {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-color: var(--color-dark);
+  color: var(--color-yellow);
+  text-align: center;
+  line-height: 24px;
+  border-radius: 50%;
+  margin-right: 8px;
+  font-family: var(--font-title);
+  font-size: 14px;
+}
+
+.rank-1 { background-color: var(--color-yellow); color: var(--color-dark); border: 2px solid var(--color-dark); }
+.rank-2 { background-color: #C0C0C0; color: var(--color-dark); border: 2px solid var(--color-dark); }
+.rank-3 { background-color: #CD7F32; color: var(--color-light); border: 2px solid var(--color-dark); }
